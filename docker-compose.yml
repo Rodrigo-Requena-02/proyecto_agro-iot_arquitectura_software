@@ -1,0 +1,20 @@
+# PostgreSQL 16: base de datos de destino en la nube (integrada, no usada por defecto).
+# Uso:  docker compose up -d   y luego   DATABASE_URL=postgresql+psycopg2://agro:agro@localhost:5432/agro
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: agro
+      POSTGRES_PASSWORD: agro
+      POSTGRES_DB: agro
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agro -d agro"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  pgdata:
